@@ -19,6 +19,7 @@ hero:
 import { Card, CardGrid } from '@astrojs/starlight/components';
 import PromptCard from '../../components/PromptCard.astro';
 import ImageModal from '../../components/ImageModal.astro';
+import ExampleImage from '../../components/ExampleImage.astro';
 
 <ImageModal />
 
@@ -27,6 +28,16 @@ import ImageModal from '../../components/ImageModal.astro';
 Google Gemini 2.5 Flash Image, известная как **Nano Banana**, — это нейросеть для редактирования изображений, которая понимает обычный русский язык и меняет на фото именно то, что вы просите.
 
 **Главная особенность** — сохраняет лица и детали при любых изменениях, в отличие от других ИИ-редакторов.
+
+### Замена одежды
+
+<ExampleImage 
+  beforeSrc="/images/before-after/change-background-before.png"
+  beforeAlt="Мужчина в бежевом пиджаке"
+  src="/images/before-after/change-background-after.png"
+  alt="Мужчина в синей льняной рубашке"
+  caption="Промпт: Замени одежду мужчины на льняную рубашку синего цвета, без изменений лица и прически"
+/>
 
 ## Почему именно этот гайд?
 

@@ -48,6 +48,8 @@ export default defineConfig({
 						{ label: 'Креативная стилизация', slug: 'prompts/creative' },
 						{ label: 'Реставрация фото', slug: 'prompts/restoration' },
 						{ label: 'Бизнес и коммерция', slug: 'prompts/business' },
+						{ label: 'Специальные эффекты', slug: 'prompts/effects' },
+						{ label: 'Создание контента', slug: 'prompts/content' },
 					],
 				},
 			],
