@@ -1,0 +1,104 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import StarlightHead from '@astrojs/starlight/components/Head.astro';
+---
+
+<StarlightHead {...Astro.props}><slot /></StarlightHead>
+
+<!-- Добавляем кнопку скрытия сайдбаров -->
+<div class="sidebar-toggle-container">
+  <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Скрыть/показать боковые панели" title="Скрыть/показать боковые панели">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 16a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Добавляем кнопку "Наверх" -->
+<div class="scroll-to-top-container">
+  <button id="scroll-to-top" class="scroll-to-top" aria-label="Наверх страницы" title="Вернуться наверх">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M10 3l6 6h-4v8H8V9H4l6-6z"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  function initSidebarToggle() {
+    const toggleButton = document.getElementById('sidebar-toggle');
+    const body = document.body;
+    
+    if (!toggleButton) return;
+
+    // Проверяем сохраненное состояние
+    const isHidden = localStorage.getItem('sidebars-hidden') === 'true';
+    if (isHidden) {
+      body.classList.add('sidebars-hidden');
+      toggleButton.setAttribute('aria-label', 'Показать боковые панели');
+    }
+
+    toggleButton.addEventListener('click', () => {
+      const isCurrentlyHidden = body.classList.contains('sidebars-hidden');
+      
+      // Добавляем класс для плавной анимации
+      body.classList.add('sidebar-transitioning');
+      
+      if (isCurrentlyHidden) {
+        body.classList.remove('sidebars-hidden');
+        localStorage.setItem('sidebars-hidden', 'false');
+        toggleButton.setAttribute('aria-label', 'Скрыть боковые панели');
+      } else {
+        body.classList.add('sidebars-hidden');
+        localStorage.setItem('sidebars-hidden', 'true');
+        toggleButton.setAttribute('aria-label', 'Показать боковые панели');
+      }
+      
+      // Убираем класс анимации через 400ms (длительность анимации)
+      setTimeout(() => {
+        body.classList.remove('sidebar-transitioning');
+      }, 400);
+    });
+  }
+
+  function initScrollToTop() {
+    const scrollButton = document.getElementById('scroll-to-top');
+    if (!scrollButton) return;
+
+    // Показать/скрыть кнопку при скролле
+    function toggleScrollButton() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > 300) {
+        scrollButton.classList.add('visible');
+      } else {
+        scrollButton.classList.remove('visible');
+      }
+    }
+
+    // Плавный скролл наверх
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Слушатели событий
+    window.addEventListener('scroll', toggleScrollButton);
+    scrollButton.addEventListener('click', scrollToTop);
+
+    // Проверяем позицию скролла при загрузке
+    toggleScrollButton();
+  }
+
+  // Инициализация при загрузке страницы
+  document.addEventListener('DOMContentLoaded', () => {
+    initSidebarToggle();
+    initScrollToTop();
+  });
+  
+  // Реинициализация при навигации Astro
+  document.addEventListener('astro:page-load', () => {
+    initSidebarToggle();
+    initScrollToTop();
+  });
+</script>

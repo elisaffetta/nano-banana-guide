@@ -388,12 +388,160 @@ h1, h2, h3, h4, h5, h6 {
   color: #8B3A3A;
 }
 
+/* Sidebar Toggle - в нижней части сайдбара, как в крутых приложениях */
+.sidebar-toggle {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 999;
+  background: rgba(245, 230, 163, 0.95);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem;
+  color: var(--sl-color-text);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.sidebar-toggle:hover {
+  background: rgba(230, 209, 122, 0.9);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-toggle:active {
+  transform: scale(0.95);
+  transition-duration: 0.1s;
+}
+
+.sidebar-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Плавная анимация иконки при переключении */
+.sidebars-hidden .sidebar-toggle svg {
+  transform: rotate(180deg);
+}
+
+/* Позиционирование кнопки при скрытых сайдбарах - остается на том же месте */
+.sidebars-hidden .sidebar-toggle {
+  left: 2rem;
+  bottom: 2rem;
+}
+
+/* Скрытие сайдбаров - синхронно и плавно */
+.sidebars-hidden .sidebar {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.sidebars-hidden .right-sidebar {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* При скрытых сайдбарах - НЕ меняем размер текста вообще */
+.sidebars-hidden .main-frame {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* НЕ трогаем .content-panel - пусть остается как есть */
+
+/* Кнопка "Наверх" */
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  background: var(--sl-color-accent);
+  border: none;
+  border-radius: 50%;
+  padding: 0.75rem;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  background: var(--sl-color-accent-high);
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top:active {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Скрыть желтую кнопку на планшетах и мобилках - оставляем только белый бургер */
+@media (max-width: 72rem) {
+  .sidebar-toggle {
+    display: none !important;
+  }
+  
+  /* На мобильных сайдбары уже скрыты по умолчанию - не меняем поведение */
+  .sidebars-hidden .main-frame {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Адаптация кнопки "Наверх" для мобильных */
+  .scroll-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.625rem;
+  }
+}
+
+
+/* Синхронные плавные переходы для всех элементов */
+.sidebar,
+.right-sidebar,
+.main-frame,
+.content-panel {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Фокусировка и доступность */
+.sidebar-toggle:focus {
+  outline: 2px solid var(--sl-color-accent-high);
+  outline-offset: 2px;
+}
+
 /* Print Styles */
 @media print {
   .copy-button,
   .image-modal,
   .theme-toggle,
-  .language-switcher {
+  .language-switcher,
+  .sidebar-toggle {
     display: none !important;
   }
   
@@ -402,4 +550,5 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: none;
     border: 1px solid #ccc;
   }
+  
 }

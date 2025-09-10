@@ -1,0 +1,200 @@
+---
+---
+
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Скрыть/показать боковые панели">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 16a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+  </svg>
+</button>
+
+<button id="scroll-to-top" class="scroll-to-top" aria-label="Наверх страницы">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M10 3l6 6h-4v8H8V9H4l6-6z"/>
+  </svg>
+</button>
+
+<style>
+  .sidebar-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    background: var(--sl-color-accent);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-toggle:hover {
+    background: var(--sl-color-accent-high);
+    transform: scale(1.05);
+  }
+
+  .sidebar-toggle:active {
+    transform: scale(0.95);
+  }
+
+  /* Кнопка "Наверх" */
+  .scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    background: var(--sl-color-accent);
+    border: none;
+    border-radius: 50%;
+    padding: 0.75rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+  }
+
+  .scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .scroll-to-top:hover {
+    background: var(--sl-color-accent-high);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .scroll-to-top:active {
+    transform: translateY(-3px) scale(1.05);
+  }
+
+  /* Состояния для скрытых сайдбаров */
+  :global(.sidebars-hidden) {
+    --sidebar-width: 0px;
+  }
+
+  :global(.sidebars-hidden .sidebar) {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  :global(.sidebars-hidden .right-sidebar) {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  :global(.sidebars-hidden main) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: none !important;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  /* Плавные переходы */
+  :global(.sidebar),
+  :global(.right-sidebar),
+  :global(main) {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Адаптивность */
+  @media (max-width: 72rem) {
+    .sidebar-toggle {
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+
+    .scroll-to-top {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0.625rem;
+    }
+  }
+</style>
+
+<script>
+  function initSidebarToggle() {
+    const toggleButton = document.getElementById('sidebar-toggle');
+    const body = document.body;
+    
+    if (!toggleButton) return;
+
+    // Проверяем сохраненное состояние
+    const isHidden = localStorage.getItem('sidebars-hidden') === 'true';
+    if (isHidden) {
+      body.classList.add('sidebars-hidden');
+    }
+
+    toggleButton.addEventListener('click', () => {
+      const isCurrentlyHidden = body.classList.contains('sidebars-hidden');
+      
+      if (isCurrentlyHidden) {
+        body.classList.remove('sidebars-hidden');
+        localStorage.setItem('sidebars-hidden', 'false');
+        toggleButton.setAttribute('aria-label', 'Скрыть боковые панели');
+      } else {
+        body.classList.add('sidebars-hidden');
+        localStorage.setItem('sidebars-hidden', 'true');
+        toggleButton.setAttribute('aria-label', 'Показать боковые панели');
+      }
+    });
+  }
+
+  function initScrollToTop() {
+    const scrollButton = document.getElementById('scroll-to-top');
+    if (!scrollButton) return;
+
+    // Показать/скрыть кнопку при скролле
+    function toggleScrollButton() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > 300) {
+        scrollButton.classList.add('visible');
+      } else {
+        scrollButton.classList.remove('visible');
+      }
+    }
+
+    // Плавный скролл наверх
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Слушатели событий
+    window.addEventListener('scroll', toggleScrollButton);
+    scrollButton.addEventListener('click', scrollToTop);
+
+    // Проверяем позицию скролла при загрузке
+    toggleScrollButton();
+  }
+
+  // Инициализация при загрузке страницы
+  document.addEventListener('DOMContentLoaded', () => {
+    initSidebarToggle();
+    initScrollToTop();
+  });
+  
+  // Реинициализация при навигации (для SPA)
+  document.addEventListener('astro:page-load', () => {
+    initSidebarToggle();
+    initScrollToTop();
+  });
+</script>
