@@ -34,6 +34,7 @@ export default defineConfig({
 					label: 'Введение',
 					items: [
 						{ label: 'Что такое Nano Banana', slug: 'introduction' },
+						{ label: 'Доступ из России', slug: 'access' },
 						{ label: 'Правила промптинга', slug: 'prompting-rules' },
 					],
 				},
@@ -41,6 +42,8 @@ export default defineConfig({
 					label: 'База промптов',
 					items: [
 						{ label: 'Работа с фоном', slug: 'prompts/background' },
+						{ label: 'Работа с объектами', slug: 'prompts/objects' },
+						{ label: 'Изменение внешности', slug: 'prompts/appearance' },
 					],
 				},
 			],

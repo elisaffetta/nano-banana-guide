@@ -1,0 +1,149 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: string;
+  height?: string;
+  beforeSrc?: string;
+  beforeAlt?: string;
+}
+
+const { src, alt, caption, width = "100%", height = "auto", beforeSrc, beforeAlt } = Astro.props;
+const isBeforeAfter = beforeSrc && beforeAlt;
+---
+
+<div class="example-image-container">
+  {isBeforeAfter ? (
+    <div class="before-after-container">
+      <div class="image-pair">
+        <div class="before-image">
+          <img 
+            class="clickable-image" 
+            src={beforeSrc} 
+            alt={beforeAlt}
+            style={`width: ${width}; height: ${height};`}
+            onclick={`openImageModal('${beforeSrc}', '${beforeAlt}', 'До: ${beforeAlt}')`}
+          />
+          <span class="image-label before-label">До</span>
+        </div>
+        <div class="after-image">
+          <img 
+            class="clickable-image" 
+            src={src} 
+            alt={alt}
+            style={`width: ${width}; height: ${height};`}
+            onclick={`openImageModal('${src}', '${alt}', 'После: ${alt}')`}
+          />
+          <span class="image-label after-label">После</span>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <img 
+      class="clickable-image single-example" 
+      src={src} 
+      alt={alt}
+      style={`width: ${width}; height: ${height};`}
+      onclick={`openImageModal('${src}', '${alt}', '${caption || alt}')`}
+    />
+  )}
+  
+  {caption && (
+    <p class="image-caption-text">{caption}</p>
+  )}
+</div>
+
+<style>
+  .example-image-container {
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  
+  .before-after-container {
+    background: var(--sl-color-bg-nav);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .image-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .before-image,
+  .after-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .image-label {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 1;
+  }
+  
+  .before-label {
+    background: var(--sl-color-red);
+  }
+  
+  .after-label {
+    background: var(--sl-color-green);
+  }
+  
+  .clickable-image {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .clickable-image:hover {
+    transform: scale(1.02);
+    box-shadow: var(--sl-shadow-lg);
+  }
+  
+  .single-example {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .image-caption-text {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--sl-color-text-accent);
+    font-style: italic;
+    line-height: 1.4;
+  }
+  
+  /* Мобильная версия */
+  @media (max-width: 768px) {
+    .image-pair {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    
+    .before-after-container {
+      padding: 0.75rem;
+    }
+    
+    .image-label {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.4rem;
+    }
+  }
+</style>
