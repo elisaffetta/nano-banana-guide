@@ -1,0 +1,113 @@
+---
+export interface Props {
+  prompt: string;
+  category?: string;
+  description?: string;
+}
+
+const { prompt, category, description } = Astro.props;
+---
+
+<div class="prompt-card fade-in-up">
+  {category && (
+    <div class="category-badge">
+      {category}
+    </div>
+  )}
+  
+  {description && (
+    <p class="prompt-description">{description}</p>
+  )}
+  
+  <div class="prompt-text">
+    <button 
+      class="copy-button" 
+      data-prompt={prompt}
+      title="Копировать промпт"
+    >
+      📋
+    </button>
+    <pre><code>{prompt}</code></pre>
+  </div>
+</div>
+
+<script>
+  // Copy to clipboard functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyButtons = document.querySelectorAll('.copy-button');
+    
+    copyButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const prompt = button.getAttribute('data-prompt');
+        
+        try {
+          await navigator.clipboard.writeText(prompt);
+          
+          // Visual feedback
+          const originalText = button.innerHTML;
+          button.innerHTML = '✅';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('copied');
+          }, 2000);
+          
+        } catch (err) {
+          console.error('Failed to copy: ', err);
+          
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = prompt;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          
+          // Visual feedback
+          const originalText = button.innerHTML;
+          button.innerHTML = '✅';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('copied');
+          }, 2000);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .category-badge {
+    display: inline-block;
+    background: var(--sl-color-accent);
+    color: var(--sl-color-text);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .prompt-description {
+    color: var(--sl-color-text-accent);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  
+  .prompt-text pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  .prompt-text code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--sl-color-text);
+  }
+</style>
