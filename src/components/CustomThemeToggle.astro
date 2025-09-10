@@ -1,0 +1,56 @@
+---
+---
+
+<button id="custom-theme-toggle" class="custom-theme-toggle" aria-label="Переключить тему">
+</button>
+
+<script>
+  function initCustomThemeToggle() {
+    const toggle = document.getElementById('custom-theme-toggle');
+    if (!toggle) return;
+
+    // Получаем текущую тему
+    function getCurrentTheme() {
+      return localStorage.getItem('starlight-theme') || 'auto';
+    }
+
+    // Устанавливаем тему
+    function setTheme(theme) {
+      localStorage.setItem('starlight-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+      
+      // Синхронизируем с оригинальным переключателем Starlight
+      const starlightSelect = document.querySelector('starlight-theme-select select');
+      if (starlightSelect) {
+        starlightSelect.value = theme;
+        starlightSelect.dispatchEvent(new Event('change'));
+      }
+    }
+
+    // Переключаем тему
+    function toggleTheme() {
+      const currentTheme = getCurrentTheme();
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    }
+
+    toggle.addEventListener('click', toggleTheme);
+
+    // Слушаем изменения темы от других источников
+    const observer = new MutationObserver(() => {
+      const theme = document.documentElement.getAttribute('data-theme');
+      if (theme) {
+        localStorage.setItem('starlight-theme', theme);
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+  }
+
+  // Инициализация
+  document.addEventListener('DOMContentLoaded', initCustomThemeToggle);
+  document.addEventListener('astro:page-load', initCustomThemeToggle);
+</script>

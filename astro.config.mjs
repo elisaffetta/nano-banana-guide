@@ -20,11 +20,6 @@ export default defineConfig({
 			social: [
 				{ 
 					icon: 'telegram', 
-					label: 'Telegram Bot', 
-					href: 'https://t.me/nanobananas_bot' 
-				},
-				{ 
-					icon: 'telegram', 
 					label: 'Канал Елисаветы', 
 					href: 'https://t.me/elisaffettaai' 
 				},
@@ -58,6 +53,7 @@ export default defineConfig({
 			customCss: ['./src/styles/custom.css'],
 			components: {
 				Head: './src/components/Head.astro',
+				Header: './src/components/Header.astro',
 			},
 		}),
 		sitemap(),

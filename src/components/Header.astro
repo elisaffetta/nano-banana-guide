@@ -1,0 +1,144 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import StarlightHeader from '@astrojs/starlight/components/Header.astro';
+import CustomThemeToggle from './CustomThemeToggle.astro';
+---
+
+<StarlightHeader {...Astro.props} />
+
+<!-- Обработчик клика для кнопки бота -->
+<script>
+  function handleBotButtonClick() {
+    document.addEventListener('click', function(e) {
+      const rightGroup = e.target.closest('.right-group');
+      if (rightGroup) {
+        const rect = rightGroup.getBoundingClientRect();
+        const pseudoWidth = 180; // ширина кнопки бота
+        const toggleWidth = 60; // ширина тоггла темы
+        const toggleOffset = rect.width - toggleWidth - 10; // позиция тоггла
+        
+        // Проверяем клик по кнопке бота (слева)
+        if (e.clientX >= rect.left && e.clientX <= rect.left + pseudoWidth) {
+          window.open('https://t.me/nanobananas_bot', '_blank');
+          console.log('Bot button clicked');
+        }
+        // Проверяем клик по тогглу темы (справа)
+        else if (e.clientX >= rect.left + toggleOffset && e.clientX <= rect.right) {
+          toggleDesktopTheme();
+          console.log('Desktop theme toggle clicked');
+        }
+      }
+    });
+  }
+
+  function toggleDesktopTheme() {
+    const currentTheme = localStorage.getItem('starlight-theme') || 'auto';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    localStorage.setItem('starlight-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    
+    // Синхронизируем с оригинальным переключателем Starlight
+    const starlightSelect = document.querySelector('starlight-theme-select select');
+    if (starlightSelect) {
+      starlightSelect.value = newTheme;
+      starlightSelect.dispatchEvent(new Event('change'));
+    }
+  }
+
+  function addMobileSettings() {
+    // Проверяем, что это мобильное устройство
+    if (window.innerWidth > 768) return;
+    
+    const sidebarContent = document.querySelector('.sidebar-content');
+    if (!sidebarContent) return;
+    
+    // Проверяем, не добавлены ли уже настройки
+    if (sidebarContent.querySelector('.mobile-settings')) return;
+    
+    // Создаем контейнер настроек
+    const settingsContainer = document.createElement('div');
+    settingsContainer.className = 'mobile-settings';
+    
+    // Кнопка бота
+    const botButton = document.createElement('a');
+    botButton.href = 'https://t.me/nanobananas_bot';
+    botButton.className = 'mobile-bot-button';
+    botButton.target = '_blank';
+    botButton.rel = 'noopener noreferrer';
+    botButton.innerHTML = '🤖 Попробовать бота';
+    
+    // Ряд с переключателем темы
+    const themeRow = document.createElement('div');
+    themeRow.className = 'mobile-theme-row';
+    
+    const themeLabel = document.createElement('span');
+    themeLabel.className = 'mobile-theme-label';
+    themeLabel.textContent = 'Тема';
+    
+    const themeToggle = document.createElement('button');
+    themeToggle.id = 'mobile-custom-theme-toggle';
+    themeToggle.className = 'custom-theme-toggle';
+    themeToggle.setAttribute('aria-label', 'Переключить тему');
+    
+    themeRow.appendChild(themeLabel);
+    themeRow.appendChild(themeToggle);
+    
+    // Собираем всё вместе
+    settingsContainer.appendChild(botButton);
+    settingsContainer.appendChild(themeRow);
+    
+    // Вставляем в начало сайдбара
+    sidebarContent.insertBefore(settingsContainer, sidebarContent.firstChild);
+    
+    // Инициализируем переключатель темы
+    initMobileThemeToggle();
+  }
+
+  function initMobileThemeToggle() {
+    const toggle = document.getElementById('mobile-custom-theme-toggle');
+    if (!toggle) return;
+
+    function getCurrentTheme() {
+      return localStorage.getItem('starlight-theme') || 'auto';
+    }
+
+    function setTheme(theme) {
+      localStorage.setItem('starlight-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+      
+      // Синхронизируем с оригинальным переключателем Starlight
+      const starlightSelect = document.querySelector('starlight-theme-select select');
+      if (starlightSelect) {
+        starlightSelect.value = theme;
+        starlightSelect.dispatchEvent(new Event('change'));
+      }
+    }
+
+    function toggleTheme() {
+      const currentTheme = getCurrentTheme();
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    }
+
+    toggle.addEventListener('click', toggleTheme);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    handleBotButtonClick();
+    addMobileSettings();
+  });
+  
+  document.addEventListener('astro:page-load', () => {
+    handleBotButtonClick();
+    addMobileSettings();
+  });
+  
+  // Обновляем при изменении размера экрана
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768) {
+      addMobileSettings();
+    }
+  });
+</script>
+
