@@ -1,36 +1,82 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
+title: Nano Banana Guide
+description: Полное руководство по Google Nano Banana с 541 готовым промптом для редактирования изображений
 template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: Google Gemini 2.5 Flash Image - мощный ИИ-редактор изображений
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Начать изучение
+      link: /introduction/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+    - text: Попробовать бота
+      link: https://t.me/nanobananas_bot
       icon: external
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import PromptCard from '../../components/PromptCard.astro';
+import ImageModal from '../../components/ImageModal.astro';
 
-## Next steps
+<ImageModal />
+
+## Что такое Google Nano Banana?
+
+Google Gemini 2.5 Flash Image, известная как **Nano Banana**, — это нейросеть для редактирования изображений, которая понимает обычный русский язык и меняет на фото именно то, что вы просите.
+
+**Главная особенность** — сохраняет лица и детали при любых изменениях, в отличие от других ИИ-редакторов.
+
+## Почему именно этот гайд?
+
+- ✅ **541 готовый промпт** для всех популярных задач
+- ✅ **12 категорий** от смены фона до создания рекламных материалов  
+- ✅ **Проверенные техники** на реальных примерах
+- ✅ **Русскоязычная поддержка** без VPN
+- ✅ **Постоянные обновления** и новые промпты
+
+## Быстрый старт
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+	<Card title="Что такое Nano Banana" icon="star">
+		Изучите возможности нейросети и технические характеристики Gemini 2.5 Flash Image.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	<Card title="Доступ из России" icon="globe">
+		Узнайте, как использовать Nano Banana без VPN через наш телеграм-бот.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+	<Card title="Правила промптинга" icon="pencil">
+		Изучите 5 ключевых правил для эффективного составления промптов.
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="База промптов" icon="open-book">
+		Получите доступ к 541 готовому промпту в 12 категориях.
 	</Card>
 </CardGrid>
+
+## Примеры промптов
+
+<PromptCard 
+  prompt="Убери фон с фотографии, оставив только человека в центре кадра"
+  category="Работа с фоном"
+  description="Удаление фона с сохранением всех деталей фигуры"
+/>
+
+<PromptCard 
+  prompt="Измени цвет куртки на красный, сохранив текстуру и складки ткани"
+  category="Изменение одежды"
+  description="Точное изменение цвета с сохранением реалистичности"
+/>
+
+<PromptCard 
+  prompt="Улучши качество фотографии: увеличь резкость, исправь освещение и добавь контраст"
+  category="Улучшение качества"
+  description="Комплексное улучшение технических характеристик изображения"
+/>
+
+## Начните прямо сейчас
+
+Попробуйте наш [телеграм-бот](https://t.me/nanobananas_bot) — первые 10 генераций бесплатно!
+
+---
+
+**Разработчики:** [Елисавета](https://t.me/elisaffetta) • [Максим](https://t.me/maxnagovitsyn)

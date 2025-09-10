@@ -1,49 +1,111 @@
-# Starlight Starter Kit: Basics
+# Nano Banana Guide
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Полное руководство по Google Nano Banana (Gemini 2.5 Flash Image) с 541 готовым промптом для редактирования изображений.
+
+## 🚀 Особенности
+
+- ✅ **541 готовый промпт** для всех популярных задач
+- ✅ **12 категорий** от смены фона до создания рекламных материалов
+- ✅ **Проверенные техники** на реальных примерах
+- ✅ **Русскоязычная поддержка** без VPN
+- ✅ **Современный дизайн** с пастельной цветовой схемой
+
+## 🛠 Технологии
+
+- **Astro** 5.6+ - статический генератор сайтов
+- **Starlight** - тема для документации
+- **TypeScript** - типизация
+- **CSS** - кастомные стили с пастельными тонами
+
+## 🏃‍♂️ Быстрый старт
+
+### Установка зависимостей
+```bash
+npm install
+```
+
+### Запуск в режиме разработки
+```bash
+npm run dev
+```
+
+### Сборка для продакшена
+```bash
+npm run build
+```
+
+### Предпросмотр сборки
+```bash
+npm run preview
+```
+
+## 📁 Структура проекта
 
 ```
-npm create astro@latest -- --template starlight
+src/
+├── assets/         # Изображения и ресурсы
+├── components/     # Astro компоненты
+│   ├── PromptCard.astro     # Карточка промпта с копированием
+│   ├── ImageModal.astro     # Модальное окно для изображений
+│   └── ClickableImage.astro # Увеличиваемые изображения
+├── content/
+│   └── docs/       # Контент сайта
+│       ├── index.mdx              # Главная страница
+│       ├── introduction.mdx       # Что такое Nano Banana
+│       ├── prompting-rules.mdx    # Правила промптинга
+│       └── prompts/
+│           └── background.mdx     # База промптов для фона
+└── styles/
+    └── custom.css  # Кастомные стили
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🎨 Компоненты
 
-## 🚀 Project Structure
+### PromptCard
+Интерактивная карточка промпта с функцией копирования в буфер обмена:
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+```astro
+<PromptCard 
+  prompt="Убери фон с фотографии, оставив только человека в центре кадра"
+  category="Работа с фоном"
+  description="Полное удаление фона с сохранением фигуры"
+/>
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+### ImageModal
+Модальное окно для просмотра изображений в полном размере.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+### ClickableImage
+Компонент для увеличиваемых изображений с подписями.
 
-Static assets, like favicons, can be placed in the `public/` directory.
+## 🎨 Дизайн
 
-## 🧞 Commands
+Сайт использует пастельную цветовую схему с желтым акцентом:
+- **Основной цвет**: #F5E6A3 (пастельный желтый)
+- **Фон**: #FFFEF7 (очень светлый желтый)
+- **Темная тема**: #2D2B1A (темно-желтый)
 
-All commands are run from the root of the project, from a terminal:
+## 📱 Адаптивность
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Полностью адаптивный дизайн для:
+- 📱 Мобильных устройств
+- 📱 Планшетов  
+- 💻 Десктопов
 
-## 👀 Want to learn more?
+## 🔗 Ссылки
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+- [Telegram Bot](https://t.me/nanobananas_bot) - Попробовать Nano Banana
+- [GitHub](https://github.com/elisaffetta/nano-banana-guide) - Исходный код
+
+## 👥 Разработчики
+
+- **Елисавета**: [Telegram](https://t.me/elisaffetta)
+- **Максим**: [Telegram](https://t.me/maxnagovitsyn)
+
+## 📄 Лицензия
+
+MIT License - используйте свободно для любых целей.
+
+---
+
+**Nano Banana Guide** — современное руководство по ИИ-редактированию изображений 🍌✨

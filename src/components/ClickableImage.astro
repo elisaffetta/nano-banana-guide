@@ -1,0 +1,38 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: string;
+  height?: string;
+}
+
+const { src, alt, caption, width = "100%", height = "auto" } = Astro.props;
+---
+
+<div class="clickable-image-container">
+  <img 
+    class="clickable-image" 
+    src={src} 
+    alt={alt}
+    style={`width: ${width}; height: ${height};`}
+    onclick={`openImageModal('${src}', '${alt}', '${caption || ''}')`}
+  />
+  {caption && (
+    <p class="image-caption-text">{caption}</p>
+  )}
+</div>
+
+<style>
+  .clickable-image-container {
+    margin: 1rem 0;
+    text-align: center;
+  }
+  
+  .image-caption-text {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--sl-color-text-accent);
+    font-style: italic;
+  }
+</style>
