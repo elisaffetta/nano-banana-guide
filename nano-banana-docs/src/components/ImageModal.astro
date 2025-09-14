@@ -1,0 +1,74 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<div class="image-modal" id="imageModal">
+  <div class="image-modal-content">
+    <button class="image-modal-close" id="closeModal">×</button>
+    <img id="modalImage" src="" alt="" />
+    {caption && <p class="image-caption" id="modalCaption"></p>}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const closeModal = document.getElementById('closeModal');
+    
+    // Close modal when clicking outside
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModalFunction();
+      }
+    });
+    
+    // Close modal with close button
+    closeModal?.addEventListener('click', closeModalFunction);
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModalFunction();
+      }
+    });
+    
+    function closeModalFunction() {
+      modal?.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    function openModal(src: string, alt: string, caption?: string) {
+      if (modalImage) modalImage.src = src;
+      if (modalImage) modalImage.alt = alt;
+      if (modalCaption && caption) {
+        modalCaption.textContent = caption;
+        modalCaption.style.display = 'block';
+      } else if (modalCaption) {
+        modalCaption.style.display = 'none';
+      }
+      modal?.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // Make openModal function globally available
+    (window as any).openImageModal = openModal;
+  });
+</script>
+
+<style>
+  .image-caption {
+    color: var(--sl-color-text-invert);
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+</style>

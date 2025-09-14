@@ -40,11 +40,6 @@ const { prompt, category, description } = Astro.props;
       button.addEventListener('click', async () => {
         const prompt = button.getAttribute('data-prompt');
         
-        if (!prompt) {
-          console.error('No prompt data found');
-          return;
-        }
-        
         try {
           await navigator.clipboard.writeText(prompt);
           

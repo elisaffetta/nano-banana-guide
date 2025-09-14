@@ -1,6 +1,7 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import StarlightHead from '@astrojs/starlight/components/Head.astro';
+import NotificationPopup from './NotificationPopup.astro';
 ---
 
 <StarlightHead {...Astro.props}><slot /></StarlightHead>
@@ -66,11 +67,13 @@ import StarlightHead from '@astrojs/starlight/components/Head.astro';
 
     // Показать/скрыть кнопку при скролле
     function toggleScrollButton() {
+      const button = document.getElementById('scroll-to-top');
+      if (!button) return;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollTop > 300) {
-        scrollButton.classList.add('visible');
+        button.classList.add('visible');
       } else {
-        scrollButton.classList.remove('visible');
+        button.classList.remove('visible');
       }
     }
 
@@ -102,3 +105,6 @@ import StarlightHead from '@astrojs/starlight/components/Head.astro';
     initScrollToTop();
   });
 </script>
+
+<!-- Добавляем компонент уведомления -->
+<NotificationPopup />
