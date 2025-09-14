@@ -32,7 +32,14 @@
     
     // Проверяем, не показывали ли уже уведомление в этой сессии
     const hasSeenNotification = sessionStorage.getItem('notification-seen');
-    if (hasSeenNotification) return;
+    if (hasSeenNotification) {
+      // Если уже показывали, скрываем уведомление
+      notification.style.display = 'none';
+      return;
+    }
+    
+    // Показываем уведомление на любой странице
+    notification.style.display = 'block';
     
     // Показываем уведомление через 1 минуту
     setTimeout(() => {
@@ -43,6 +50,10 @@
     closeButton.addEventListener('click', () => {
       notification.classList.remove('show');
       sessionStorage.setItem('notification-seen', 'true');
+      // Скрываем уведомление после закрытия
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 400); // После анимации закрытия
     });
     
     // Закрытие при клике вне уведомления
@@ -50,6 +61,10 @@
       if (e.target === notification) {
         notification.classList.remove('show');
         sessionStorage.setItem('notification-seen', 'true');
+        // Скрываем уведомление после закрытия
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 400); // После анимации закрытия
       }
     });
     
@@ -58,6 +73,10 @@
       if (e.key === 'Escape' && notification.classList.contains('show')) {
         notification.classList.remove('show');
         sessionStorage.setItem('notification-seen', 'true');
+        // Скрываем уведомление после закрытия
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 400); // После анимации закрытия
       }
     });
   }
@@ -86,12 +105,14 @@
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    display: none; /* Скрыто по умолчанию */
   }
   
   .notification-popup.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
+    display: block;
   }
   
   .notification-content {
